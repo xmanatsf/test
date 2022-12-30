@@ -53,6 +53,7 @@ sector=np.array(data['SEC'].values)
 sec=np.unique(sector)
 
 app = Dash(__name__)
+server=app.server
 
 app.layout = html.Div([
     html.H1(id = 'H1', children = 'factor scatter', style = {'textAlign':'center',\
