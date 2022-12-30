@@ -6,25 +6,10 @@ Created on Tue Nov  8 15:34:52 2022
 """
 
 import pandas as pd
-# import matplotlib.pyplot as plt
-
-import numpy as np
-# import datetime
-# from datetime import date
-
-# import seaborn as sns
-
 import plotly           #(version 4.5.0)
 import plotly.express as px
-import plotly.io as pio
 import plotly.graph_objects as go
 # from plotly.subplots import make_subplots
-from sklearn.preprocessing import StandardScaler
-import statsmodels.api as sm
-
-import io
-import requests
-
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 
