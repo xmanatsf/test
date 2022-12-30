@@ -1,5 +1,5 @@
-dash
 python == 3.8.10
+dash
 pandas
 gunicorn
 plotly
