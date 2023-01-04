@@ -2,4 +2,5 @@ dash ==2.7.0
 pandas
 openpyxl
 statsmodels
+numpy
 gunicorn
