@@ -91,7 +91,7 @@ app.layout = html.Div([
 
 
 # =============================================================================
-# store fetched data in the odyssey_data     
+# store fetched data in the Scatter_data     
 # =============================================================================
 
 @app.callback(Output('Scatter_data', 'data'),
@@ -106,7 +106,7 @@ def odyssey_data(dropdown4_value):
     query= url_start + dt1 + url_end
     df=pd.read_excel(query,engine='openpyxl')
     
-    print(df.head())
+#     print(df.head())
     
      # more generally, this line would be
      # json.dumps(cleaned_df)
@@ -127,7 +127,7 @@ def update_chart1(dropdown1_value,dropdown2_value,dropdown3_value,jsonified_clea
         
         df=data[[dropdown3_value, 'ticker',dropdown1_value,dropdown2_value,'mktcap']]
         
-        print(df.head())
+#         print(df.head())
         
         df1=df.groupby([dropdown3_value]).agg(
             x_var=(dropdown1_value, 'mean'),
@@ -138,7 +138,7 @@ def update_chart1(dropdown1_value,dropdown2_value,dropdown3_value,jsonified_clea
         df=df1[df1.index!='@NA']
         df=df.reset_index()
         
-        print(df.head())
+#         print(df.head())
         
         df=df.dropna(how='all')
         df['ind']=df[dropdown3_value]
@@ -150,7 +150,7 @@ def update_chart1(dropdown1_value,dropdown2_value,dropdown3_value,jsonified_clea
                          ,size=size, color='ind', text='ind')
         
         model = sm.OLS(df['y_var'], sm.add_constant(df['x_var'])).fit()
-        print(model.summary())
+#         print(model.summary())
         
         df['bestfit'] = sm.OLS(df['y_var'], sm.add_constant(df['x_var'])).fit().fittedvalues
         
@@ -285,7 +285,7 @@ def update_timeseries5(clickData,dropdown3_value,jsonified_cleaned_data):
     df = df1.append(df2)
     df = df.append(df3)
     
-    print(df.head())
+#     print(df.head())
     
     fig = make_subplots(rows=1, cols=1,specs=[[{"secondary_y": True}]])
 
@@ -399,7 +399,7 @@ def update_timeseries6(clickData,dropdown3_value,jsonified_cleaned_data):
     df = df1.append(df2)
     df = df.append(df3)
     
-    print(df.head())
+#     print(df.head())
     
     fig = make_subplots(rows=1, cols=1)
 
@@ -447,7 +447,7 @@ def update_chart2(dropdown1_value,dropdown2_value,dropdown3_value,clickData,json
                          ,size=size, color="ticker", text="ticker")
         
         model = sm.OLS(df[dropdown2_value], sm.add_constant(df[dropdown1_value])).fit()
-        print(model.summary())
+#         print(model.summary())
         
         df['bestfit'] = sm.OLS(df[dropdown2_value], sm.add_constant(df[dropdown1_value])).fit().fittedvalues
         
@@ -482,10 +482,10 @@ def update_timeseries1(clickData,jsonified_cleaned_data):
     data = pd.read_json(jsonified_cleaned_data, orient='split')
     
     # print(clickData['points'][0]['text'])
-    print(clickData['points'][0])
+#     print(clickData['points'][0])
     ticker = clickData['points'][0]['text']
     dff = data[data['ticker'] == ticker]
-    print(dff.head())
+#     print(dff.head())
     
     dtemp1=dff[['p_chg400d','p_chg300d','p_chg200d','p_chg150d','p_chg120d','p_chg70d','p_chg40d','p_chg20d'
                 , 's_chg400d','s_chg300d','s_chg200d','s_chg150d','s_chg120d','s_chg70d','s_chg40d','s_chg20d'
@@ -534,7 +534,7 @@ def update_timeseries1(clickData,jsonified_cleaned_data):
     df = df1.append(df2)
     df = df.append(df3)
     
-    print(df.head())
+#     print(df.head())
     
     fig = make_subplots(rows=1, cols=1,specs=[[{"secondary_y": True}]])
 
@@ -581,10 +581,10 @@ def update_timeseries2(clickData,jsonified_cleaned_data):
     data = pd.read_json(jsonified_cleaned_data, orient='split')
     
     # print(clickData['points'][0]['text'])
-    print(clickData['points'][0])
+#     print(clickData['points'][0])
     ticker = clickData['points'][0]['text']
     dff = data[data['ticker'] == ticker]
-    print(dff.head())
+#     print(dff.head())
     
     
     dtemp1_rk=data[['p_chg400d','p_chg300d','p_chg200d','p_chg150d','p_chg120d','p_chg70d','p_chg40d','p_chg20d'
@@ -635,7 +635,7 @@ def update_timeseries2(clickData,jsonified_cleaned_data):
     df_rk = df1.append(df2)
     df_rk = df_rk.append(df3)
         
-    print(df_rk.head())
+#     print(df_rk.head())
     
     fig = make_subplots(rows=1, cols=1)
 
@@ -668,10 +668,10 @@ def update_timeseries3(clickData,jsonified_cleaned_data):
     data = pd.read_json(jsonified_cleaned_data, orient='split')
     
     # print(clickData['points'][0]['text'])
-    print(clickData['points'][0])
+#     print(clickData['points'][0])
     ticker = clickData['points'][0]['text']
     dff = data[data['ticker'] == ticker]
-    print(dff.head())
+#     print(dff.head())
     
     dtemp1=dff[['p_chg10y','p_chg7y','p_chg5y','p_chg3y','p_chg2y','p_chg1y','p_chg6m','p_chg3m'
                 , 's_chg10y','s_chg7y','s_chg5y','s_chg3y','s_chg2y','s_chg1y','s_chg6m','s_chg3m'
@@ -720,7 +720,7 @@ def update_timeseries3(clickData,jsonified_cleaned_data):
     df = df1.append(df2)
     df = df.append(df3)
     
-    print(df.head())
+#     print(df.head())
     
     fig = make_subplots(rows=1, cols=1,specs=[[{"secondary_y": True}]])
 
@@ -767,10 +767,10 @@ def update_timeseries4(clickData,jsonified_cleaned_data):
     data = pd.read_json(jsonified_cleaned_data, orient='split')
     
     # print(clickData['points'][0]['text'])
-    print(clickData['points'][0])
+#     print(clickData['points'][0])
     ticker = clickData['points'][0]['text']
     dff = data[data['ticker'] == ticker]
-    print(dff.head())
+#     print(dff.head())
     
     
     dtemp1_rk=data[['p_chg10y','p_chg7y','p_chg5y','p_chg3y','p_chg2y','p_chg1y','p_chg6m','p_chg3m'
@@ -821,7 +821,7 @@ def update_timeseries4(clickData,jsonified_cleaned_data):
     df_rk = df1.append(df2)
     df_rk = df_rk.append(df3)
         
-    print(df_rk.head())
+#     print(df_rk.head())
     
     fig = make_subplots(rows=1, cols=1)
 
@@ -857,10 +857,10 @@ def update_barchart1(clickData,jsonified_cleaned_data):
     data = pd.read_json(jsonified_cleaned_data, orient='split')
     
     # print(clickData['points'][0]['text'])
-    print(clickData['points'][0])
+#     print(clickData['points'][0])
     ticker = clickData['points'][0]['text']
     dff = data[data['ticker'] == ticker]
-    print(dff.head())
+#     print(dff.head())
     
     dtemp=dff[['p_10y_cagr','p_7y_cagr','p_5y_cagr','p_3y_cagr','p_1y_cagr'
                 ,'s_10y_cagr','s_7y_cagr','s_5y_cagr','s_3y_cagr','s_1y_cagr'
@@ -923,7 +923,7 @@ def update_barchart1(clickData,jsonified_cleaned_data):
     df = df.append(df5)
   
         
-    print(df.head())
+#     print(df.head())
     
     fig = px.bar(df, x="period", y="Rate", 
                  color="indicator", barmode='group')
@@ -938,7 +938,7 @@ def update_barchart1(clickData,jsonified_cleaned_data):
 def update_barchart2(clickData,jsonified_cleaned_data):
     data = pd.read_json(jsonified_cleaned_data, orient='split')
     # print(clickData['points'][0]['text'])
-    print(clickData['points'][0])
+#     print(clickData['points'][0])
     ticker = clickData['points'][0]['text']
     
     dtemp=data[['p_10y_cagr','p_7y_cagr','p_5y_cagr','p_3y_cagr','p_1y_cagr'
@@ -950,7 +950,7 @@ def update_barchart2(clickData,jsonified_cleaned_data):
     dtemp=dtemp2.join(dtemp)
     
     dtemp = dtemp[dtemp['ticker'] == ticker]
-    print(dtemp.head())
+#     print(dtemp.head())
    
     df_s1=dtemp[['p_10y_cagr','p_7y_cagr','p_5y_cagr','p_3y_cagr','p_1y_cagr']]
     df_s1=df_s1.rename({'p_10y_cagr': '10y', 'p_7y_cagr': '7y','p_5y_cagr': '5y',
@@ -1005,7 +1005,7 @@ def update_barchart2(clickData,jsonified_cleaned_data):
     df = df.append(df5)
   
         
-    print(df.head())
+#     print(df.head())
     
     fig = px.bar(df, x="period", y="Rate", 
                  color="indicator", barmode='group')
