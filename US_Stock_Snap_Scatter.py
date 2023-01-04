@@ -98,7 +98,7 @@ app.layout = html.Div([
               Input("dropdown4", "value"))
 def odyssey_data(dropdown4_value):
      # some expensive data processing step
-    print(dropdown4_value)
+#     print(dropdown4_value)
     
     dt1=dropdown4_value
     url_start = "https://github.com/xmanatsf/test/blob/main/RIY%20AND%20SP1500%20MONITORING%20SCREEN%20UPDATE4%20"
@@ -121,7 +121,7 @@ def odyssey_data(dropdown4_value):
                , Input("dropdown3", "value"),Input('Scatter_data', 'data')])    
 
 def update_chart1(dropdown1_value,dropdown2_value,dropdown3_value,jsonified_cleaned_data):
-        print(dropdown1_value,dropdown2_value,dropdown3_value)
+#         print(dropdown1_value,dropdown2_value,dropdown3_value)
         
         data = pd.read_json(jsonified_cleaned_data, orient='split')
         
@@ -213,7 +213,7 @@ def update_chart1(dropdown1_value,dropdown2_value,dropdown3_value,jsonified_clea
 
 def update_timeseries5(clickData,dropdown3_value,jsonified_cleaned_data):
     
-    print(clickData['points'][0])
+#     print(clickData['points'][0])
     
     ind=clickData['points'][0]['text']
     
@@ -435,7 +435,7 @@ def update_timeseries6(clickData,dropdown3_value,jsonified_cleaned_data):
                ,Input('Scatter_data', 'data')])    
 
 def update_chart2(dropdown1_value,dropdown2_value,dropdown3_value,clickData,jsonified_cleaned_data):
-        print(dropdown1_value,dropdown2_value,dropdown3_value,clickData['points'][0])
+#         print(dropdown1_value,dropdown2_value,dropdown3_value,clickData['points'][0])
         
         data = pd.read_json(jsonified_cleaned_data, orient='split')
         
