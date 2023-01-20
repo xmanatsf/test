@@ -16,19 +16,17 @@ app.layout = html.Div([
                                             'marginTop':40,'marginBottom':40}),## Title line
      html.Div(children=[
          dcc.Dropdown( id = 'dropdown1',
-        options = ['p_chg10y','p_chg7y','p_chg5y','p_chg3y','p_chg2y','p_chg1y'
-                   ,'p_chg6m','p_chg3m','p_chg400d','p_chg300d','p_chg200d','p_chg150d'
-                   ,'p_chg120d','p_chg70d','p_chg40d','p_chg20d','p_tstat_10y','p_tstat_7y'
-                   ,'p_tstat_5y','p_tstat_3y','p_tstat_2y','p_tstat_1y','p_tstat_6m'
-                   ,'p_tstat_3m','p_tstat_1m','p_tstat_200d','p_tstat_120d','p_tstat_50d'],
+        options = ['p_chg5y','p_chg3y','p_chg1y','p_chg6m','p_chg3m','p_chg200d'
+                   ,'p_chg120d','p_chg70d','p_chg40d','p_chg20d','p_tstat_5y','p_tstat_3y','p_tstat_1y'
+                   ,'p_tstat_6m','p_tstat_3m','p_tstat_200d','p_tstat_120d'
+                   ,'p_tstat_70d','p_tstat_40d','p_tstat_20d'],
         value = None, style={'width': '25%', 'display': 'inline-block'}),## drop down select x variable
      
      dcc.Dropdown( id = 'dropdown2',
-        options = ['p_chg10y','p_chg7y','p_chg5y','p_chg3y','p_chg2y','p_chg1y'
-                   ,'p_chg6m','p_chg3m','p_chg400d','p_chg300d','p_chg200d','p_chg150d'
-                   ,'p_chg120d','p_chg70d','p_chg40d','p_chg20d','p_tstat_10y','p_tstat_7y'
-                   ,'p_tstat_5y','p_tstat_3y','p_tstat_2y','p_tstat_1y','p_tstat_6m'
-                   ,'p_tstat_3m','p_tstat_1m','p_tstat_200d','p_tstat_120d','p_tstat_50d'],
+        options = ['p_chg5y','p_chg3y','p_chg1y','p_chg6m','p_chg3m','p_chg200d'
+                   ,'p_chg120d','p_chg70d','p_chg40d','p_chg20d','p_tstat_5y','p_tstat_3y','p_tstat_1y'
+                   ,'p_tstat_6m','p_tstat_3m','p_tstat_200d','p_tstat_120d'
+                   ,'p_tstat_70d','p_tstat_40d','p_tstat_20d'],
         value = None, style={'width': '25%', 'display': 'inline-block'}),
      
      dcc.Dropdown( id = 'dropdown3',
@@ -36,14 +34,14 @@ app.layout = html.Div([
         value = None, style={'width': '25%', 'display': 'inline-block'}),
      
      dcc.Dropdown( id = 'dropdown4',
-        options = ['20230107','20230103', '20221123', '20221001'],
+        options = ['20230119', '20221123', '20221001'],
         value = None, style={'width': '25%', 'display': 'inline-block'})
      
      ]),## drop down select y variable
 
      html.Div([
          dcc.Graph(id = 'scatter_plot1',clickData={'points': [{'text': 'nvda'}]}
-          ,style={'width': '98%','height': '400px','display': 'inline-block'}),  #hoverData={'points': [{'ticker': 'nvda'}]}  sector specific scatter plot
+          ,style={'width': '98%','height': '700px','display': 'inline-block'}),  #hoverData={'points': [{'ticker': 'nvda'}]}  sector specific scatter plot
          ]),
 
     html.Div(children=[
@@ -55,7 +53,7 @@ app.layout = html.Div([
      
      html.Div([
          dcc.Graph(id = 'scatter_plot2',clickData={'points': [{'text': 'nvda'}]}
-          ,style={'width': '98%','height': '400px','display': 'inline-block'}),  #hoverData={'points': [{'ticker': 'nvda'}]}  sector specific scatter plot
+          ,style={'width': '98%','height': '700px','display': 'inline-block'}),  #hoverData={'points': [{'ticker': 'nvda'}]}  sector specific scatter plot
          ]),
    
 
@@ -77,6 +75,11 @@ app.layout = html.Div([
     ]),
     
     html.Div(children=[
+        dcc.Graph(id = 'ts_plot7',clickData={'points': [{'text': 'nvda'}]}
+         ,style={'width': '98%','display': 'inline-block'})
+    ]),
+    
+    html.Div(children=[
         dcc.Graph(id = 'bar_chart1',clickData={'points': [{'text': 'nvda'}]}
          ,style={'width': '49%','display': 'inline-block'}),  #hoverData={'points': [{'ticker': 'nvda'}]}  sector specific scatter plot
     
@@ -88,7 +91,6 @@ app.layout = html.Div([
     dcc.Store(id='Scatter_data')
     
 ])
-
 
 # =============================================================================
 # store fetched data in the Scatter_data     
@@ -285,7 +287,35 @@ def update_timeseries5(clickData,dropdown3_value,jsonified_cleaned_data):
     df = df1.append(df2)
     df = df.append(df3)
     
-#     print(df.head())
+    dmkt=data[['p_chg10y','p_chg7y','p_chg5y','p_chg3y','p_chg2y','p_chg1y','p_chg6m','p_chg3m'
+                , 's_chg10y','s_chg7y','s_chg5y','s_chg3y','s_chg2y','s_chg1y','s_chg6m','s_chg3m'
+              ,'e_chg10y','e_chg7y','e_chg5y','e_chg3y','e_chg2y','e_chg1y','e_chg6m','e_chg3m']].mean()
+    
+    dmkt1=dmkt.reset_index()
+
+    dmkt1.rename(columns={'index':'period',0:'trend'}, inplace = True)
+
+    df_s1=dmkt1[dmkt1['period'].isin(['s_chg10y','s_chg7y','s_chg5y','s_chg3y','s_chg2y','s_chg1y','s_chg6m','s_chg3m'])]
+    df_s1['period']=['chg10y','chg7y', 'chg5y', 'chg3y', 'chg2y', 'chg1y', 'chg6m', 'chg3m']
+
+    df_s2=dmkt1[dmkt1['period'].isin(['e_chg10y','e_chg7y','e_chg5y','e_chg3y','e_chg2y','e_chg1y','e_chg6m','e_chg3m'])]
+    df_s2['period']=['chg10y','chg7y', 'chg5y', 'chg3y', 'chg2y', 'chg1y', 'chg6m', 'chg3m']
+
+    df_s3=dmkt1[dmkt1['period'].isin(['p_chg10y','p_chg7y','p_chg5y','p_chg3y','p_chg2y','p_chg1y','p_chg6m','p_chg3m'])]
+    df_s3['period']=['chg10y','chg7y', 'chg5y', 'chg3y', 'chg2y', 'chg1y', 'chg6m', 'chg3m']
+        
+    df1=df_s1
+    df1['indicator']=var[0]
+    
+    df2=df_s2
+    df2['indicator']=var[1]
+    
+    df3=df_s3
+    df3['indicator']=var[2]
+    
+    
+    dmkt = df1.append(df2)
+    dmkt = dmkt.append(df3)
     
     fig = make_subplots(rows=1, cols=1,specs=[[{"secondary_y": True}]])
 
@@ -296,6 +326,7 @@ def update_timeseries5(clickData,dropdown3_value,jsonified_cleaned_data):
         sig=var[i]
         
         df_temp=df[df['indicator'].isin([sig])]
+        dmkt_temp=dmkt[dmkt['indicator'].isin([sig])]
         
         if i<2:     
             fig.add_trace(
@@ -305,6 +336,13 @@ def update_timeseries5(clickData,dropdown3_value,jsonified_cleaned_data):
                             visible=True,
                             line=dict(width=1,color=colors[i]),
                         showlegend=True),row=1, col=1)
+            fig.add_trace(
+                go.Scatter(x=dmkt_temp.period,
+                           y=dmkt_temp.trend,
+                           name=sig,
+                            visible=True,
+                            line=dict(width=1,color=colors[i],dash='dot'),
+                        showlegend=True),row=1, col=1)
         else:
             fig.add_trace(
                 go.Scatter(x=df_temp.period,
@@ -313,7 +351,14 @@ def update_timeseries5(clickData,dropdown3_value,jsonified_cleaned_data):
                             visible=True,
                             line=dict(width=1,color=colors[i]),
                         showlegend=True),secondary_y=True,row=1, col=1)
-
+            fig.add_trace(
+                go.Scatter(x=dmkt_temp.period,
+                           y=dmkt_temp.trend,
+                           name=sig,
+                            visible=True,
+                            line=dict(width=1,color=colors[i],dash='dot'),
+                        showlegend=True),secondary_y=True,row=1, col=1)
+            
     fig.update_layout(title = ind+' absolute s e and p (RHS) trend',
                   xaxis_title = 'period',
                   yaxis_title = 'trend'
@@ -487,33 +532,33 @@ def update_timeseries1(clickData,jsonified_cleaned_data):
     dff = data[data['ticker'] == ticker]
 #     print(dff.head())
     
-    dtemp1=dff[['p_chg400d','p_chg300d','p_chg200d','p_chg150d','p_chg120d','p_chg70d','p_chg40d','p_chg20d'
-                , 's_chg400d','s_chg300d','s_chg200d','s_chg150d','s_chg120d','s_chg70d','s_chg40d','s_chg20d'
-              ,'e_chg400d','e_chg300d','e_chg200d','e_chg150d','e_chg120d','e_chg70d','e_chg40d','e_chg20d']]
+    dtemp1=dff[['p_chg400d','p_chg300d','p_chg200d','p_chg120d','p_chg70d','p_chg40d'
+                , 's_chg400d','s_chg300d','s_chg200d','s_chg120d','s_chg70d','s_chg40d'
+              ,'e_chg400d','e_chg300d','e_chg200d','e_chg120d','e_chg70d','e_chg40d']]
 
     dtemp2=dff[['ticker']]
     dtemp=dtemp2.join(dtemp1)
     dtemp=dtemp.set_index('ticker')
     
-    df_s1=dtemp[['s_chg400d','s_chg300d','s_chg200d','s_chg150d','s_chg120d','s_chg70d','s_chg40d','s_chg20d']]
+    df_s1=dtemp[['s_chg400d','s_chg300d','s_chg200d','s_chg120d','s_chg70d','s_chg40d']]
     df_s1=df_s1.rename({'s_chg400d': 'chg400d', 's_chg300d': 'chg300d','s_chg200d': 'chg200d',
-                        's_chg150d': 'chg150d', 's_chg120d': 'chg120d','s_chg70d': 'chg70d',
-                        's_chg40d': 'chg40d', 's_chg20d': 'chg20d'}
+                        's_chg120d': 'chg120d','s_chg70d': 'chg70d',
+                        's_chg40d': 'chg40d'}
                         , axis=1)
     
     
-    df_s2=dtemp[['e_chg400d','e_chg300d','e_chg200d','e_chg150d','e_chg120d','e_chg70d','e_chg40d','e_chg20d']]
+    df_s2=dtemp[['e_chg400d','e_chg300d','e_chg200d','e_chg120d','e_chg70d','e_chg40d']]
     df_s2=df_s2.rename({'e_chg400d': 'chg400d', 'e_chg300d': 'chg300d','e_chg200d': 'chg200d',
-                        'e_chg150d': 'chg150d', 'e_chg120d': 'chg120d','e_chg70d': 'chg70d',
-                        'e_chg40d': 'chg40d', 'e_chg20d': 'chg20d'}
+                        'e_chg120d': 'chg120d','e_chg70d': 'chg70d',
+                        'e_chg40d': 'chg40d'}
                         , axis=1)
      
-    df_s3=dtemp[['p_chg400d','p_chg300d','p_chg200d','p_chg150d','p_chg120d','p_chg70d','p_chg40d','p_chg20d']]
+    df_s3=dtemp[['p_chg400d','p_chg300d','p_chg200d','p_chg120d','p_chg70d','p_chg40d']]
     df_s3=df_s3.rename({'p_chg400d': 'chg400d', 'p_chg300d': 'chg300d','p_chg200d': 'chg200d',
-                        'p_chg150d': 'chg150d', 'p_chg120d': 'chg120d','p_chg70d': 'chg70d',
-                        'p_chg40d': 'chg40d', 'p_chg20d': 'chg20d'}
+                        'p_chg120d': 'chg120d','p_chg70d': 'chg70d',
+                        'p_chg40d': 'chg40d'}
                         , axis=1)
-   
+    
     var=['s','e','p']
     
     df1=df_s1
@@ -587,31 +632,31 @@ def update_timeseries2(clickData,jsonified_cleaned_data):
 #     print(dff.head())
     
     
-    dtemp1_rk=data[['p_chg400d','p_chg300d','p_chg200d','p_chg150d','p_chg120d','p_chg70d','p_chg40d','p_chg20d'
-            , 's_chg400d','s_chg300d','s_chg200d','s_chg150d','s_chg120d','s_chg70d','s_chg40d','s_chg20d'
-          ,'e_chg400d','e_chg300d','e_chg200d','e_chg150d','e_chg120d','e_chg70d','e_chg40d','e_chg20d']].rank(pct=True)
+    dtemp1_rk=data[['p_chg400d','p_chg300d','p_chg200d','p_chg120d','p_chg70d','p_chg40d'
+            , 's_chg400d','s_chg300d','s_chg200d','s_chg120d','s_chg70d','s_chg40d'
+          ,'e_chg400d','e_chg300d','e_chg200d','e_chg120d','e_chg70d','e_chg40d']].rank(pct=True)
     dtemp2=data[['ticker']]
     dtemp_rk=dtemp2.join(dtemp1_rk)
     dtemp_rk = dtemp_rk[dtemp_rk['ticker'] == ticker]
     dtemp_rk=dtemp_rk.set_index('ticker')
 
     
-    df_s1=dtemp_rk[['s_chg400d','s_chg300d','s_chg200d','s_chg150d','s_chg120d','s_chg70d','s_chg40d','s_chg20d']]
+    df_s1=dtemp_rk[['s_chg400d','s_chg300d','s_chg200d','s_chg120d','s_chg70d','s_chg40d']]
     df_s1=df_s1.rename({'s_chg400d': 'chg400d_rk', 's_chg300d': 'chg300d_rk','s_chg200d': 'chg200d_rk',
-                        's_chg150d': 'chg150d_rk', 's_chg120d': 'chg120d_rk','s_chg70d': 'chg70d_rk',
-                        's_chg40d': 'chg40d_rk', 's_chg20d': 'chg20d_rk'}
+                        's_chg120d': 'chg120d_rk','s_chg70d': 'chg70d_rk',
+                        's_chg40d': 'chg40d_rk'}
                         , axis=1)
 
-    df_s2=dtemp_rk[['e_chg400d','e_chg300d','e_chg200d','e_chg150d','e_chg120d','e_chg70d','e_chg40d','e_chg20d']]
+    df_s2=dtemp_rk[['e_chg400d','e_chg300d','e_chg200d','e_chg120d','e_chg70d','e_chg40d']]
     df_s2=df_s2.rename({'e_chg400d': 'chg400d_rk', 'e_chg300d': 'chg300d_rk','e_chg200d': 'chg200d_rk',
-                        'e_chg150d': 'chg150d_rk', 'e_chg120d': 'chg120d_rk','e_chg70d': 'chg70d_rk',
-                        'e_chg40d': 'chg40d_rk', 'e_chg20d': 'chg20d_rk'}
+                        'e_chg120d': 'chg120d_rk','e_chg70d': 'chg70d_rk',
+                        'e_chg40d': 'chg40d_rk'}
                         , axis=1)
     
-    df_s3=dtemp_rk[['p_chg400d','p_chg300d','p_chg200d','p_chg150d','p_chg120d','p_chg70d','p_chg40d','p_chg20d']]
+    df_s3=dtemp_rk[['p_chg400d','p_chg300d','p_chg200d','p_chg120d','p_chg70d','p_chg40d']]
     df_s3=df_s3.rename({'p_chg400d': 'chg400d_rk', 'p_chg300d': 'chg300d_rk','p_chg200d': 'chg200d_rk',
-                        'p_chg150d': 'chg150d_rk', 'p_chg120d': 'chg120d_rk','p_chg70d': 'chg70d_rk',
-                        'p_chg40d': 'chg40d_rk', 'p_chg20d': 'chg20d_rk'}
+                        'p_chg120d': 'chg120d_rk','p_chg70d': 'chg70d_rk',
+                        'p_chg40d': 'chg40d_rk'}
                         , axis=1)
     
     var=['s_rk','e_rk','p_rk']   
@@ -847,7 +892,83 @@ def update_timeseries4(clickData,jsonified_cleaned_data):
                   )    
     return fig
 
+# =============================================================================
+# area charts
+# =============================================================================
 
+@app.callback(Output('ts_plot7', 'figure'),
+              [Input("scatter_plot2", "clickData"),Input('Scatter_data', 'data')])    
+
+def update_timeseries(clickData,jsonified_cleaned_data):
+    
+   
+    data = pd.read_json(jsonified_cleaned_data, orient='split')
+    ticker = clickData['points'][0]['text']
+    
+    dff = data[data['ticker'] == ticker]
+        
+    dtemp1=dff[['p_chg10y','p_chg7y','p_chg5y','p_chg3y','p_chg2y','p_chg1y','p_chg6m','p_chg3m'
+                , 's_chg10y','s_chg7y','s_chg5y','s_chg3y','s_chg2y','s_chg1y','s_chg6m','s_chg3m'
+              ,'e_chg10y','e_chg7y','e_chg5y','e_chg3y','e_chg2y','e_chg1y','e_chg6m','e_chg3m']]
+
+    dtemp2=dff[['ticker']]
+    dtemp=dtemp2.join(dtemp1)
+    dtemp=dtemp.set_index('ticker')
+    
+    df_s1=dtemp[['s_chg10y','s_chg7y','s_chg5y','s_chg3y','s_chg2y','s_chg1y','s_chg6m','s_chg3m']]
+    df_s1=df_s1.rename({'s_chg10y': 'chg10y', 's_chg7y': 'chg7y','s_chg5y': 'chg5y',
+                        's_chg3y': 'chg3y', 's_chg2y': 'chg2y','s_chg1y': 'chg1y',
+                        's_chg6m': 'chg6m', 's_chg3m': 'chg3m'}
+                        , axis=1)
+    
+    
+    df_s2=dtemp[['e_chg10y','e_chg7y','e_chg5y','e_chg3y','e_chg2y','e_chg1y','e_chg6m','e_chg3m']]
+    df_s2=df_s2.rename({'e_chg10y': 'chg10y', 'e_chg7y': 'chg7y','e_chg5y': 'chg5y',
+                        'e_chg3y': 'chg3y', 'e_chg2y': 'chg2y','e_chg1y': 'chg1y',
+                        'e_chg6m': 'chg6m', 'e_chg3m': 'chg3m'}
+                        , axis=1)
+     
+    df_s3=dtemp[['p_chg10y','p_chg7y','p_chg5y','p_chg3y','p_chg2y','p_chg1y','p_chg6m','p_chg3m']]
+    df_s3=df_s3.rename({'p_chg10y': 'chg10y', 'p_chg7y': 'chg7y','p_chg5y': 'chg5y',
+                        'p_chg3y': 'chg3y', 'p_chg2y': 'chg2y','p_chg1y': 'chg1y',
+                        'p_chg6m': 'chg6m', 'p_chg3m': 'chg3m'}
+                        , axis=1)
+    var=['s','e','p']
+    
+    df1=df_s1
+    df1['stk']=df_s1.index
+    df1['indicator']=var[0]
+    df1 = pd.melt(df_s1,id_vars=['stk','indicator'],var_name='period',value_name='Rate')
+    
+    df2=df_s2
+    df2['stk']=df_s2.index
+    df2['indicator']=var[1]
+    df2 = pd.melt(df_s2,id_vars=['stk','indicator'],var_name='period',value_name='Rate')
+    
+    df3=df_s3
+    df3['stk']=df_s3.index
+    df3['indicator']=var[2]
+    df3 = pd.melt(df_s3,id_vars=['stk','indicator'],var_name='period',value_name='Rate')
+
+    
+    fig = make_subplots(rows=1, cols=1,specs=[[{"secondary_y": True}]])
+    fig.add_trace(go.Scatter(x=df2.period, y=df2.Rate, fill='tozeroy',
+                       name='e', mode='none' # override default markers+lines
+                        ))
+    fig.add_trace(go.Scatter(x=df3.period, y=df3.Rate, fill='tonexty',
+                       name='p', mode= 'none'),secondary_y=True,)
+    
+    fig.update_layout(
+    paper_bgcolor="LightSteelBlue",
+    legend=dict(orientation="h",
+    yanchor="bottom",
+    y=-0.1,
+    xanchor="center",
+    x=0.5))
+    
+    return fig
+
+##################
 
 @app.callback(Output('bar_chart1', 'figure'),
               [Input("scatter_plot2", "clickData"),Input('Scatter_data', 'data')])    
