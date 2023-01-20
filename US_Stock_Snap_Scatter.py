@@ -37,7 +37,7 @@ app.layout = html.Div([
         options = ['20230119', '20221123', '20221001'],
         value = None, style={'width': '25%', 'display': 'inline-block'})
      
-     ]),## drop down select y variable
+     ]),
 
      html.Div([
          dcc.Graph(id = 'scatter_plot1',clickData={'points': [{'text': 'nvda'}]}
