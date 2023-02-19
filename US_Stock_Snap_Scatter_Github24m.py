@@ -19,27 +19,6 @@ import statsmodels.api as sm
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 
-import os, signal
-import warnings
-warnings.filterwarnings("ignore")
-
-# dt1=" 20221227"
-
-# path= "C:\\Users\shibi\Documents\Research\screen\\"
-# file_name="RIY AND SP1500 MONITORING SCREEN UPDATE4" + dt1 + ".xlsx"
-
-# savepath= "C:\\Users\shibi\Documents\Research\screen\\"
-
-# file= path + file_name
-
-# data = pd.read_excel(file,engine='openpyxl')
-
-# SEC='RBICS_SEC2'
-
-# sector=np.array(data[SEC].values)
-# sec=np.unique(sector)
-
-# external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = Dash(__name__)
 server=app.server
@@ -1249,10 +1228,6 @@ def update_timeseries(clickData,jsonified_cleaned_data,myslider):
 if __name__ == '__main__':
     app.run_server(debug=False)
     
-os.kill(os.getpid(), signal.SIGTERM)
-
-
-
 
 
 
