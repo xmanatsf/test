@@ -42,7 +42,7 @@ warnings.filterwarnings("ignore")
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = Dash(__name__)
-# server=app.server
+server=app.server
 
 app.layout = html.Div([
     html.H1(id = 'H1', children = 'factor scatter', style = {'textAlign':'center',\
