@@ -43,7 +43,7 @@ app.layout = html.Div([
         value = None, style={'width': '25%', 'display': 'inline-block'}),
      
      dcc.Dropdown( id = 'dropdown4',
-        options = ['20230305','20230216','20230206','20230121'],
+        options = ['20230321','20230305','20230216','20230206'],
         value = None, style={'width': '25%', 'display': 'inline-block'})
      
      ]),## drop down select y variable
